@@ -1,0 +1,17 @@
+Revision history for Perl extension Math::Base::Convert
+
+0.05  Sun Dec 23 22:46:42 PST 2012
+	initial release
+
+0.04  Sat Dec 22 21:07:56 PST 2012
+	\Q \E metaquoting escape sequence to disable all 
+	metacharacters in later versions of Perl
+
+0.03  Tue Dec 18 17:44:58 PST 2012
+	archive before TO <-> FROM switch
+
+0.02  Wed Dec  5 17:56:47 PST 2012
+	separated math into CalcPP.pm
+
+0.01  Wed Dec  5 13:59:41 PST 2012
+	first development package
