@@ -19,7 +19,7 @@ require Math::Base::Convert::Bases;	# drag in BASES
 	Exporter
 );
 
-$VERSION = do { my @r = (q$Revision: 0.05 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$VERSION = do { my @r = (q$Revision: 0.06 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 @EXPORT_OK   = ( qw( cnv cnvpre cnvabs basemap ), @BASES );
 %EXPORT_TAGS = (
@@ -331,6 +331,7 @@ Math::Base::Convert - very fast base to base conversion
 	xnt		base 64 XML Name Tokens (Nmtoken)
 	xid		base 64 XML identifiers (Name)
 	b85		base 85 RFC 1924 for IPv6 addresses
+	ascii		base 96 7 bit printible 0x20 - 0x7F
   );
 
   my $converted = cnv($number,optionalFROM,optionalTO);
@@ -390,7 +391,22 @@ The functions below return a reference to an array
   b85 => ['0'..'9', 'A'..'Z', 'a'..'z', '!', '#', # RFC 1924
 	  '$', '%', '&', '(', ')', '*', '+', '-', 
 	  ';', '<', '=', '>', '?', '@', '^', '_', 
-	  '', '{', '|', '}', '~'],
+	  '', '{', '|', '}', '~']
+  An arbitrary base 96 composed of printable 7 bit ascii
+  from 0x20 (space) through 0x7F (tilde ~)
+  ascii => [
+	' ','!','"','#','$','%','&',"'",'(',')',
+	'*','+',',','-','.','/',
+	'0','1','2','3','4','5','6','7','8','9',
+	':',';','<','=','>','?','@',
+	'A','B','C','D','E','F','G','H','I','J','K','L','M',
+	'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+	'[','\',']','^','_','`',
+	'a','b','c','d','e','f','g','h','i','j','k','l','m',
+	'n','o','p','q','r','s','t','u','v','w','x','y','z',
+	'{','|','}','~']
+
+  NOTE: Clean text with =~ s/\s+/ /; before applying to ascii
 
 =head1 USAGE
 
@@ -600,6 +616,7 @@ Conditional EXPORT functions
 	xnt
 	xid
 	b85
+	ascii
 
 =head1 EXPORT_TAGS
 

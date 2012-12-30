@@ -12,6 +12,7 @@ benchmarks/benchmark3.txt
 lib/Math/Base/Convert/Bases.pm
 lib/Math/Base/Convert/CalcPP.pm
 lib/Math/Base/Convert/Shortcuts.pm
+t/ascii.t
 t/backend.t
 t/basefunct.t
 t/basemap.t
