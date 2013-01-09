@@ -85,7 +85,7 @@ my $mapbits = sub {
 foreach (sort keys %$bases) {
   my $len = @{$bases->{$_}};
   unless ($len & $len -1) {	# isnotp2
-    my $bp = log($len)/log(2);
+    my $bp = int(log($len)/log(2) +0.5);
     if (exists $base2{$bp}) {
       push @{$base2{$bp}}, $_;
     } else {

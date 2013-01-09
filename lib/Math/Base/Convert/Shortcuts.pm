@@ -3,7 +3,7 @@ package Math::Base::Convert::Shortcuts;
 use vars qw($VERSION);
 use strict;
 
-$VERSION = do { my @r = (q$Revision: 0.01 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$VERSION = do { my @r = (q$Revision: 0.03 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 # load bitmaps
 
@@ -95,6 +95,41 @@ my @srindx = (	# accomodate up to 31 bit shifts
 	0x7fffffff	# 31
 );
 
+my @srindx2 = (	# accomodate up to 31 bit shifts
+	0xffffffff,	# 0 unused
+	0xfffffffe,	# 1
+	0xfffffffc,	# 2
+	0xfffffff8,	# 3
+	0xfffffff0,	# 4
+	0xffffffe0,	# 5
+	0xffffffc0,	# 6
+	0xffffff80,	# 7
+	0xffffff00,	# 8
+	0xfffffe00,	# 9
+	0xfffffc00,	# 10
+	0xfffff800,	# 11
+	0xfffff000,	# 12
+	0xffffe000,	# 13
+	0xffffc000,	# 14
+	0xffff8000,	# 15
+	0xffff0000,	# 16
+	0xfffe0000,	# 17
+	0xfffc0000,	# 18
+	0xfff80000,	# 19
+	0xfff00000,	# 20
+	0xffe00000,	# 21
+	0xffc00000,	# 22
+	0xff800000,	# 23
+	0xff000000,	# 24
+	0xfe000000,	# 25
+	0xfc000000,	# 26
+	0xf8000000,	# 27
+	0xf0000000,	# 28
+	0xe0000000,	# 29
+	0xc0000000,	# 30
+	0x80000000	# 31
+);
+
 #
 # $arraypointer, $shiftright, $mask, $shiftleft
 #
@@ -107,7 +142,8 @@ sub longshiftright {
   my $i   = 1;
   foreach (0..$al) {
     $ap->[$_] >>= $sr;
-    $ap->[$_] |= ($ap->[$i] & $msk) << $sl;
+#    $ap->[$_] |= ($ap->[$i] & $msk) << $sl;
+    $ap->[$_] |= ($ap->[$i] << $sl) & $msk;
     $i++;
   }
   $ap->[$#$ap] >>= $sr;
@@ -118,7 +154,7 @@ sub longshiftright {
 #
 sub shiftright {
   my($ap,$n) = @_;
-    longshiftright($ap,$n,$srindx[$n],32 -$n);
+    longshiftright($ap,$n,$srindx2[$n],32 -$n);
 }
 
 #
@@ -240,7 +276,7 @@ my @useFROMbaseShortcuts = ( 0,	# unused
 sub useFROMbaseShortcuts {
   my $bc = shift;
   my($ary,$hsh,$base,$str) = @{$bc}{qw(from fhsh fbase nstr)};
-  my $bp = log($base)/log(2);
+  my $bp = int(log($base)/log(2) +0.5);
   my $len 	= length($str);
   return ($bp,[0]) unless $len;		# no value in zero length string
 
@@ -327,7 +363,7 @@ sub usrmap {
 sub useTObaseShortcuts {
   my $bc = shift;
   my($base,$b32p,$to) = @{$bc}{qw( tbase b32str to )};
-  my $bp = log($base)/log(2);			# base power
+  my $bp = int(log($base)/log(2) +0.5);		# base power
   my $L = @$b32p;
   my $packed = pack("N$L", reverse @{$b32p});
   ref($to) =~ /([^:]+)$/;			# extract to base name
@@ -358,16 +394,20 @@ sub useTObaseShortcuts {
     }
     $L *= 32;
     (my $bits = unpack("B$L",$packed)) =~ s/^0+//;	# suppress leading zeros
+#print "bp = $bp, BITS=\n$bits\n";
     my $len = length($bits);
     my $m = $len % $bp;				# pad to even multiple base power
+#my $z = $m;
     if ($m) {
       $m = $bp - $m;
       $bits = ('0' x $m) . $bits;
       $len += $m;
     }
+#print "len = $len, m_init = $z, m = $m, BITS PADDED\n$bits\n";
     $str = '';
     for (my $i = 0; $i < $len; $i += $bp) {
       $str .= $map->{substr($bits,$i,$bp)};
+#print "MAPPED i=$i, str=$str\n";
     }
   }
   $str;

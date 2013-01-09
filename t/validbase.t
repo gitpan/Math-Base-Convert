@@ -105,7 +105,7 @@ print "failed to accept user base\nnot "
 
 # test 28	check array's the same length
 print "in/out not the same length\nnot "
-	unless length(@$ua) == length(@$rv);
+	unless scalar(@$ua) == scalar(@$rv);
 &ok;
 
 # test 29 - 40	check array's contain same values

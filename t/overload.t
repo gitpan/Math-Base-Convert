@@ -1,4 +1,4 @@
-
+use diagnostics;
 BEGIN { $| = 1; print "1..23\n"; }
 END {print "not ok 1\n" unless $loaded;}
 
@@ -47,7 +47,7 @@ unless ($bi || $benchmark) {	# else enabled and real BigInt
   };
 }
 
-$bi = new Math::BigInt(8) if $bi;
+#$bi = new Math::BigInt(8) if $bi;
 
 # test 2
 if ($bi) {
@@ -79,13 +79,14 @@ print "got: $rv, exp: '16'\nnot "
 
 # test 5
 if ($bi) {
-  $rv = hex $bi; $rv = ref($rv) if ref $rv;
+  (my $biv = "$bi") =~ s/\+//;	# strip objectionable + sign
+  $rv = hex $biv; $rv = ref($rv) if ref $rv;
   print "got: $rv, exp: '16'\nnot "
 	unless $rv eq '16';
   &ok;
 
 # test 6
-  $rv = hex($bi); $rv = ref($rv) if ref $rv;
+  $rv = hex($biv); $rv = ref($rv) if ref $rv;
   print "got: $rv, exp: '16'\nnot "
 	unless $rv eq '16';
   &ok;
@@ -159,17 +160,17 @@ if ($bi) {
   &ok;
 
 # test 16
-  $rv = oct $bi; $rv = ref($rv) if ref $rv;
+  (my $biv = "$bi") =~ s/\+//;	# strip + sign
+  $rv = oct $biv; $rv = ref($rv) if ref $rv;
   print "got: $rv, exp: '11'\nnot "
 	unless $rv eq '11';
   &ok;
 
 # test 17
-  $rv = oct($bi); $rv = ref($rv) if ref $rv;
+  $rv = oct($biv); $rv = ref($rv) if ref $rv;
   print "got: $rv, exp: '11'\nnot "
 	unless $rv eq '11';
   &ok;
-
   unless (ref($bi) =~ /Math\:\:BigInt/) {
 # test 18
     $rv = $bi->oct; $rv = ref($rv) if ref $rv;
