@@ -1,5 +1,10 @@
 Revision history for Perl extension Math::Base::Convert
 
+0.08  Mon Jan 27 11:59:58 PST 2014
+        modify Makefile.PL to bypass missing 'pod2text'
+
+	correct documentation typo
+
 0.07  Tue Jan  8 13:47:58 PST 2013
   revise Shortcuts 0.02 srindx table use to mask after shift
 

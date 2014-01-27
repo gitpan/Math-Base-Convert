@@ -19,7 +19,7 @@ require Math::Base::Convert::Bases;	# drag in BASES
 	Exporter
 );
 
-$VERSION = do { my @r = (q$Revision: 0.07 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$VERSION = do { my @r = (q$Revision: 0.08 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 @EXPORT_OK   = ( qw( cnv cnvpre cnvabs basemap ), @BASES );
 %EXPORT_TAGS = (
@@ -559,7 +559,7 @@ can be found in the 'benchmarks' source directory.
 Provides comparison data for bi-directional conversion of an ascending
 series of number strings in all base powers. The test sequence contains
 number strings that go from a a single 32 bit register to several. Tested
-baes are:   (note: b32, b128, b256 not useful and are for testing only)
+bases are:   (note: b32, b128, b256 not useful and are for testing only)
 
     base 2    4    8    16   32   64   85   128   256
 	bin, dna, oct, hex, b32, b64, b85, b128, b256
@@ -638,7 +638,7 @@ Michael Robinton, <miker@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2012, Michael Robinton
+Copyright 2012-2014, Michael Robinton
 
 This program is free software; you may redistribute it and/or modify it
 under the same terms as Perl itself.
